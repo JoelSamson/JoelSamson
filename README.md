@@ -14,3 +14,11 @@ You can click the Preview link to take a look at your changes.
 <img align="left" alt="JoelSamson's Github Stats" src="https://github-readme-stats.vercel.app/api?username=JoelSamson&show_icons=true&hide_border=true&count_private=true&theme=tokyonight" />
 <br />
 <!-- CARD:END -->
+
+
+-->
+<p align=center>
+ 
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=JoelSamson&layout=compact)](https://github.com/JoelSamson/github-readme-stats)
+
+</p>
