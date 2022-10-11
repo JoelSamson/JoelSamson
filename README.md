@@ -8,3 +8,9 @@
 JoelSamson/JoelSamson is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
 --->
+
+
+<!-- CARD:START -->
+<img align="left" alt="JoelSamson's Github Stats" src="https://github-readme-stats.vercel.app/api?username=JoelSamson&show_icons=true&hide_border=true&count_private=true&theme=tokyonight" />
+<br />
+<!-- CARD:END -->
