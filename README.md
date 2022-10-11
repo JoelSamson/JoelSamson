@@ -16,9 +16,4 @@ You can click the Preview link to take a look at your changes.
 <!-- CARD:END -->
 
 
--->
-<p align=center>
- 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=JoelSamson&layout=compact)](https://github.com/JoelSamson/github-readme-stats)
-
-</p>
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=JoelSamson)](https://github.com/JoelSamson/github-readme-stats)
