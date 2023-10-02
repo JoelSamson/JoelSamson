@@ -1,5 +1,5 @@
 ## Hi there 👋
-I'm a developer currently pursuing a Master's Degree in Software Engineering at Carnegie Mellon University!
+I'm a developer currently pursuing a Master's Degree in Software Engineering at George Mason University!
  
 <a href="https://joelsamson.com">
 	<img height="100%" alt="Portfolio" src="https://img.shields.io/badge/portfolio-white?style=for-the-badge&logo=About.me&logoColor=black"/>
