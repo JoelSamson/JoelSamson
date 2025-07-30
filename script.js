@@ -1,6 +1,12 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     
+    // Initialize GSAP
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Initialize Three.js Scene for Hero
+    initThreeJSScene();
+    
     // Mobile Navigation Toggle
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -461,5 +467,232 @@ document.addEventListener('DOMContentLoaded', function() {
         scrollToTopBtn.style.boxShadow = '0 5px 15px rgba(102, 126, 234, 0.3)';
     });
 
+    // Portfolio Filtering
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+            
+            const filter = button.getAttribute('data-filter');
+            
+            portfolioItems.forEach(item => {
+                if (filter === 'all' || item.getAttribute('data-category').includes(filter)) {
+                    item.classList.remove('hidden');
+                    gsap.to(item, {duration: 0.5, opacity: 1, scale: 1, ease: "back.out(1.7)"});
+                } else {
+                    item.classList.add('hidden');
+                    gsap.to(item, {duration: 0.3, opacity: 0, scale: 0.8});
+                }
+            });
+        });
+    });
+
+    // GSAP Animations
+    // Hero animations
+    gsap.timeline()
+        .from('.hero-title', {duration: 1, y: 100, opacity: 0, ease: "power3.out"})
+        .from('.hero-subtitle', {duration: 1, y: 50, opacity: 0, ease: "power3.out"}, "-=0.5")
+        .from('.hero-description', {duration: 1, y: 30, opacity: 0, ease: "power3.out"}, "-=0.3")
+        .from('.hero-stats .stat', {duration: 0.8, y: 30, opacity: 0, stagger: 0.2, ease: "power3.out"}, "-=0.5")
+        .from('.hero-buttons .btn', {duration: 0.8, y: 30, opacity: 0, stagger: 0.1, ease: "power3.out"}, "-=0.3");
+
+    // Portfolio cards animation
+    gsap.from('.portfolio-card', {
+        duration: 1,
+        y: 100,
+        opacity: 0,
+        stagger: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: '.portfolio-grid',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
+    // Story chapters animation
+    gsap.utils.toArray('.story-chapter').forEach((chapter, index) => {
+        gsap.from(chapter, {
+            duration: 1,
+            x: index % 2 === 0 ? -100 : 100,
+            opacity: 0,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: chapter,
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+    });
+
+    // Stats animation
+    gsap.from('.stat-card', {
+        duration: 1,
+        y: 50,
+        opacity: 0,
+        stagger: 0.1,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+            trigger: '.story-stats',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
+    // Enhanced scroll animations
+    gsap.utils.toArray('.section-title').forEach(title => {
+        gsap.from(title, {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: title,
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+    });
+
+    // Parallax effect for background elements
+    gsap.utils.toArray('.portfolio::before, .story::before').forEach(bg => {
+        gsap.to(bg, {
+            yPercent: -50,
+            ease: "none",
+            scrollTrigger: {
+                trigger: bg,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+    });
+
     console.log('🚀 Joel Samson Portfolio - Loaded Successfully!');
 });
+
+// Three.js Scene for Hero Section
+function initThreeJSScene() {
+    const canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true});
+    
+    renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+    renderer.setClearColor(0x000000, 0);
+
+    // Create floating geometric shapes
+    const geometries = [
+        new THREE.BoxGeometry(1, 1, 1),
+        new THREE.SphereGeometry(0.5, 32, 32),
+        new THREE.ConeGeometry(0.5, 1, 32),
+        new THREE.TorusGeometry(0.5, 0.2, 16, 100)
+    ];
+
+    const materials = [
+        new THREE.MeshBasicMaterial({ 
+            color: 0x667eea, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.6 
+        }),
+        new THREE.MeshBasicMaterial({ 
+            color: 0x764ba2, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.4 
+        }),
+        new THREE.MeshBasicMaterial({ 
+            color: 0xf093fb, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.3 
+        })
+    ];
+
+    const meshes = [];
+    
+    // Create multiple floating objects
+    for (let i = 0; i < 15; i++) {
+        const geometry = geometries[Math.floor(Math.random() * geometries.length)];
+        const material = materials[Math.floor(Math.random() * materials.length)];
+        const mesh = new THREE.Mesh(geometry, material);
+        
+        mesh.position.x = (Math.random() - 0.5) * 20;
+        mesh.position.y = (Math.random() - 0.5) * 20;
+        mesh.position.z = (Math.random() - 0.5) * 20;
+        
+        mesh.rotation.x = Math.random() * Math.PI;
+        mesh.rotation.y = Math.random() * Math.PI;
+        
+        // Store initial position and random speeds
+        mesh.userData = {
+            initialY: mesh.position.y,
+            floatSpeed: 0.01 + Math.random() * 0.02,
+            rotationSpeed: {
+                x: (Math.random() - 0.5) * 0.02,
+                y: (Math.random() - 0.5) * 0.02,
+                z: (Math.random() - 0.5) * 0.02
+            }
+        };
+        
+        scene.add(mesh);
+        meshes.push(mesh);
+    }
+
+    camera.position.z = 15;
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Animate each mesh
+        meshes.forEach((mesh, index) => {
+            // Floating animation
+            mesh.position.y = mesh.userData.initialY + Math.sin(Date.now() * mesh.userData.floatSpeed + index) * 2;
+            
+            // Rotation animation
+            mesh.rotation.x += mesh.userData.rotationSpeed.x;
+            mesh.rotation.y += mesh.userData.rotationSpeed.y;
+            mesh.rotation.z += mesh.userData.rotationSpeed.z;
+        });
+
+        // Rotate entire scene slowly
+        scene.rotation.y += 0.001;
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+        if (canvas.offsetWidth > 0 && canvas.offsetHeight > 0) {
+            camera.aspect = canvas.offsetWidth / canvas.offsetHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+        }
+    });
+
+    // Mouse interaction
+    let mouseX = 0;
+    let mouseY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        
+        // Move camera slightly based on mouse position
+        camera.position.x = mouseX * 0.5;
+        camera.position.y = mouseY * 0.5;
+        camera.lookAt(scene.position);
+    });
+}

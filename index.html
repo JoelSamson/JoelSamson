@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -23,6 +26,12 @@
                 </li>
                 <li class="nav-item">
                     <a href="#experience" class="nav-link">Experience</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#portfolio" class="nav-link">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#story" class="nav-link">My Story</a>
                 </li>
                 <li class="nav-item">
                     <a href="#skills" class="nav-link">Skills</a>
@@ -71,6 +80,7 @@
                     </div>
                 </div>
                 <div class="hero-visual">
+                    <canvas id="hero-canvas"></canvas>
                     <div class="floating-card card-1">
                         <i class="fas fa-chart-line"></i>
                         <span>Marketing Analytics</span>
@@ -133,6 +143,346 @@
                 <div class="about-image">
                     <div class="image-placeholder">
                         <i class="fas fa-user-tie"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">My Work & Designs</h2>
+                <p class="section-subtitle">Showcasing impactful projects and creative solutions</p>
+            </div>
+            
+            <div class="portfolio-filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="web">Web Development</button>
+                <button class="filter-btn" data-filter="marketing">Marketing Campaigns</button>
+                <button class="filter-btn" data-filter="design">UI/UX Design</button>
+                <button class="filter-btn" data-filter="social">Social Media</button>
+            </div>
+
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-category="web marketing">
+                    <div class="portfolio-card">
+                        <div class="portfolio-image">
+                            <div class="project-placeholder">
+                                <i class="fas fa-globe"></i>
+                                <div class="project-overlay">
+                                    <h4>National Water Service</h4>
+                                    <p>Complete website redesign with marketing automation</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3>National Water Service Website</h3>
+                            <p>Led complete website overhaul with WordPress, integrated HubSpot CRM, and implemented security improvements using Cloudflare. Achieved 30K+ clicks through Google Ads.</p>
+                            <div class="portfolio-stats">
+                                <span><i class="fas fa-eye"></i> 30K+ Clicks</span>
+                                <span><i class="fas fa-shield-alt"></i> 50% Security Boost</span>
+                                <span><i class="fas fa-envelope"></i> 50% Email CTR</span>
+                            </div>
+                            <div class="portfolio-tech">
+                                <span>WordPress</span>
+                                <span>HubSpot</span>
+                                <span>Cloudflare</span>
+                                <span>Google Ads</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="web">
+                    <div class="portfolio-card">
+                        <div class="portfolio-image">
+                            <div class="project-placeholder">
+                                <i class="fas fa-hands-helping"></i>
+                                <div class="project-overlay">
+                                    <h4>Salvation Army Global Network</h4>
+                                    <p>Managing 17,000+ websites worldwide</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3>Salvation Army Global Web Platform</h3>
+                            <p>Managed global network of 17,000+ websites, implemented AI-driven content automation, and achieved top 10 search rankings through advanced SEO strategies.</p>
+                            <div class="portfolio-stats">
+                                <span><i class="fas fa-globe"></i> 17K+ Sites</span>
+                                <span><i class="fas fa-users"></i> +500 Daily Users</span>
+                                <span><i class="fas fa-search"></i> Top 10 Rankings</span>
+                            </div>
+                            <div class="portfolio-tech">
+                                <span>React</span>
+                                <span>Node.js</span>
+                                <span>Adobe Analytics</span>
+                                <span>SharePoint</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="design web">
+                    <div class="portfolio-card">
+                        <div class="portfolio-image">
+                            <div class="project-placeholder">
+                                <i class="fas fa-rocket"></i>
+                                <div class="project-overlay">
+                                    <h4>Nexus 8 International</h4>
+                                    <p>Startup website with modern design</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3>Nexus 8 Startup Platform</h3>
+                            <p>Designed and developed startup website from wireframes to launch, implementing modern design practices and performance optimizations for projected 20% traffic growth.</p>
+                            <div class="portfolio-stats">
+                                <span><i class="fas fa-tachometer-alt"></i> 20% Speed Boost</span>
+                                <span><i class="fas fa-smile"></i> 40% User Satisfaction</span>
+                                <span><i class="fas fa-chart-line"></i> 20% Traffic Growth</span>
+                            </div>
+                            <div class="portfolio-tech">
+                                <span>React</span>
+                                <span>Figma</span>
+                                <span>WordPress</span>
+                                <span>CRM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="web">
+                    <div class="portfolio-card">
+                        <div class="portfolio-image">
+                            <div class="project-placeholder">
+                                <i class="fas fa-code"></i>
+                                <div class="project-overlay">
+                                    <h4>Istari Digital Components</h4>
+                                    <p>Reusable React component library</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3>React Component Library</h3>
+                            <p>Developed reusable React components and high-performance RESTful APIs, achieving 95% code coverage and reducing development time by 20%.</p>
+                            <div class="portfolio-stats">
+                                <span><i class="fas fa-clock"></i> 20% Time Saved</span>
+                                <span><i class="fas fa-bug"></i> 30% Less Bugs</span>
+                                <span><i class="fas fa-server"></i> 30% API Boost</span>
+                            </div>
+                            <div class="portfolio-tech">
+                                <span>React</span>
+                                <span>TypeScript</span>
+                                <span>REST APIs</span>
+                                <span>Jest</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="marketing social">
+                    <div class="portfolio-card">
+                        <div class="portfolio-image">
+                            <div class="project-placeholder">
+                                <i class="fas fa-bullhorn"></i>
+                                <div class="project-overlay">
+                                    <h4>Multi-Platform Campaigns</h4>
+                                    <p>Social media and email marketing</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3>Integrated Marketing Campaigns</h3>
+                            <p>Executed multi-platform marketing strategies across social media and CRMs, developed content calendars, and achieved industry-leading email performance.</p>
+                            <div class="portfolio-stats">
+                                <span><i class="fas fa-heart"></i> 5% Engagement Boost</span>
+                                <span><i class="fas fa-envelope-open"></i> 50% Email CTR</span>
+                                <span><i class="fas fa-share"></i> Daily Content</span>
+                            </div>
+                            <div class="portfolio-tech">
+                                <span>HubSpot</span>
+                                <span>Google Analytics</span>
+                                <span>Canva</span>
+                                <span>Social Media</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="design marketing">
+                    <div class="portfolio-card">
+                        <div class="portfolio-image">
+                            <div class="project-placeholder">
+                                <i class="fas fa-graduation-cap"></i>
+                                <div class="project-overlay">
+                                    <h4>University Portals</h4>
+                                    <p>Educational platform design</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h3>NMAMIT University Portals</h3>
+                            <p>Created and refined university portals serving 5,000+ users monthly, implemented performance optimizations and executed targeted email marketing campaigns.</p>
+                            <div class="portfolio-stats">
+                                <span><i class="fas fa-users"></i> 5K+ Monthly Users</span>
+                                <span><i class="fas fa-thumbs-up"></i> 15% Satisfaction</span>
+                                <span><i class="fas fa-envelope"></i> 30% Open Rate</span>
+                            </div>
+                            <div class="portfolio-tech">
+                                <span>React</span>
+                                <span>PHP</span>
+                                <span>WordPress</span>
+                                <span>Email Marketing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="story" class="story">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">My Journey</h2>
+                <p class="section-subtitle">From Computer Science student to Marketing & Web Development specialist</p>
+            </div>
+            
+            <div class="story-timeline">
+                <div class="story-chapter" data-chapter="1">
+                    <div class="chapter-content">
+                        <div class="chapter-text">
+                            <h3>The Beginning</h3>
+                            <h4>2020 - India</h4>
+                            <p>Started as a freelance full-stack developer at NMAMIT, creating university portals and discovering my passion for combining technical skills with user experience. Built solutions serving 5,000+ users monthly.</p>
+                            <div class="chapter-highlights">
+                                <span><i class="fas fa-code"></i> First Full-Stack Projects</span>
+                                <span><i class="fas fa-users"></i> 5K+ Users Served</span>
+                                <span><i class="fas fa-lightbulb"></i> UX/UI Discovery</span>
+                            </div>
+                        </div>
+                        <div class="chapter-visual">
+                            <div class="story-card">
+                                <i class="fas fa-seedling"></i>
+                                <span>The Foundation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="story-chapter" data-chapter="2">
+                    <div class="chapter-content">
+                        <div class="chapter-visual">
+                            <div class="story-card">
+                                <i class="fas fa-plane"></i>
+                                <span>The Journey</span>
+                            </div>
+                        </div>
+                        <div class="chapter-text">
+                            <h3>The Transition</h3>
+                            <h4>2022 - Virginia, USA</h4>
+                            <p>Moved to the US for my Master's in Computer Science at George Mason University. Started as a Graduate Teaching Assistant, mentoring 100+ students while discovering the power of data-driven education.</p>
+                            <div class="chapter-highlights">
+                                <span><i class="fas fa-graduation-cap"></i> MS Computer Science</span>
+                                <span><i class="fas fa-chalkboard-teacher"></i> 100+ Students Mentored</span>
+                                <span><i class="fas fa-chart-bar"></i> Data Analytics Focus</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="story-chapter" data-chapter="3">
+                    <div class="chapter-content">
+                        <div class="chapter-text">
+                            <h3>The Evolution</h3>
+                            <h4>2023 - Washington DC</h4>
+                            <p>Joined Istari Digital and Nexus 8 International, developing high-performance applications and learning the art of startup growth. Built reusable components that saved 20% development time.</p>
+                            <div class="chapter-highlights">
+                                <span><i class="fas fa-rocket"></i> Startup Experience</span>
+                                <span><i class="fas fa-cogs"></i> 20% Efficiency Gain</span>
+                                <span><i class="fas fa-mobile-alt"></i> Modern Tech Stack</span>
+                            </div>
+                        </div>
+                        <div class="chapter-visual">
+                            <div class="story-card">
+                                <i class="fas fa-chart-line"></i>
+                                <span>The Growth</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="story-chapter" data-chapter="4">
+                    <div class="chapter-content">
+                        <div class="chapter-visual">
+                            <div class="story-card">
+                                <i class="fas fa-globe"></i>
+                                <span>The Scale</span>
+                            </div>
+                        </div>
+                        <div class="chapter-text">
+                            <h3>The Breakthrough</h3>
+                            <h4>2024 - Global Impact</h4>
+                            <p>Joined The Salvation Army managing 17,000+ websites globally. Discovered the perfect intersection of technology and marketing, achieving top 10 search rankings and massive user growth.</p>
+                            <div class="chapter-highlights">
+                                <span><i class="fas fa-globe-americas"></i> 17K+ Websites</span>
+                                <span><i class="fas fa-search"></i> Top 10 Rankings</span>
+                                <span><i class="fas fa-users"></i> 500+ Daily Users</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="story-chapter" data-chapter="5">
+                    <div class="chapter-content">
+                        <div class="chapter-text">
+                            <h3>The Present</h3>
+                            <h4>2024 - Maryland</h4>
+                            <p>Now at National Water Service as Web Developer & Marketing Manager, combining technical expertise with marketing strategy. Generating 30K+ ad clicks, achieving 50% email click rates, and securing websites with advanced cloud solutions.</p>
+                            <div class="chapter-highlights">
+                                <span><i class="fas fa-bullseye"></i> 30K+ Ad Clicks</span>
+                                <span><i class="fas fa-envelope"></i> 50% Email CTR</span>
+                                <span><i class="fas fa-shield-alt"></i> Security Expert</span>
+                            </div>
+                        </div>
+                        <div class="chapter-visual">
+                            <div class="story-card">
+                                <i class="fas fa-crown"></i>
+                                <span>The Mastery</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="story-stats">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-code"></i></div>
+                    <div class="stat-content">
+                        <h4>50+</h4>
+                        <p>Projects Completed</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-content">
+                        <h4>22K+</h4>
+                        <p>Users Impacted</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-content">
+                        <h4>200%</h4>
+                        <p>Growth Achieved</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-award"></i></div>
+                    <div class="stat-content">
+                        <h4>5</h4>
+                        <p>Years Experience</p>
                     </div>
                 </div>
             </div>
