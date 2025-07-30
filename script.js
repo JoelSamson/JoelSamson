@@ -1,11 +1,15 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Initialize GSAP
-    gsap.registerPlugin(ScrollTrigger);
+    // Initialize GSAP (with error handling)
+    if (typeof gsap !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+    }
     
-    // Initialize Three.js Scene for Hero
-    initThreeJSScene();
+    // Initialize Three.js Scene for Hero (with error handling)
+    if (typeof THREE !== 'undefined') {
+        initThreeJSScene();
+    }
     
     // Mobile Navigation Toggle
     const hamburger = document.querySelector('.hamburger');
@@ -483,108 +487,192 @@ document.addEventListener('DOMContentLoaded', function() {
             portfolioItems.forEach(item => {
                 if (filter === 'all' || item.getAttribute('data-category').includes(filter)) {
                     item.classList.remove('hidden');
-                    gsap.to(item, {duration: 0.5, opacity: 1, scale: 1, ease: "back.out(1.7)"});
+                    // Use GSAP if available, otherwise use CSS transitions
+                    if (typeof gsap !== 'undefined') {
+                        gsap.to(item, {duration: 0.5, opacity: 1, scale: 1, ease: "back.out(1.7)"});
+                    } else {
+                        item.style.opacity = '1';
+                        item.style.transform = 'scale(1)';
+                    }
                 } else {
                     item.classList.add('hidden');
-                    gsap.to(item, {duration: 0.3, opacity: 0, scale: 0.8});
+                    // Use GSAP if available, otherwise use CSS transitions
+                    if (typeof gsap !== 'undefined') {
+                        gsap.to(item, {duration: 0.3, opacity: 0, scale: 0.8});
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.8)';
+                    }
                 }
             });
         });
     });
 
-    // GSAP Animations
-    // Hero animations
-    gsap.timeline()
-        .from('.hero-title', {duration: 1, y: 100, opacity: 0, ease: "power3.out"})
-        .from('.hero-subtitle', {duration: 1, y: 50, opacity: 0, ease: "power3.out"}, "-=0.5")
-        .from('.hero-description', {duration: 1, y: 30, opacity: 0, ease: "power3.out"}, "-=0.3")
-        .from('.hero-stats .stat', {duration: 0.8, y: 30, opacity: 0, stagger: 0.2, ease: "power3.out"}, "-=0.5")
-        .from('.hero-buttons .btn', {duration: 0.8, y: 30, opacity: 0, stagger: 0.1, ease: "power3.out"}, "-=0.3");
+    // GSAP Animations (with fallbacks)
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        // Hero animations
+        gsap.timeline()
+            .from('.hero-title', {duration: 1, y: 100, opacity: 0, ease: "power3.out"})
+            .from('.hero-subtitle', {duration: 1, y: 50, opacity: 0, ease: "power3.out"}, "-=0.5")
+            .from('.hero-description', {duration: 1, y: 30, opacity: 0, ease: "power3.out"}, "-=0.3")
+            .from('.hero-stats .stat', {duration: 0.8, y: 30, opacity: 0, stagger: 0.2, ease: "power3.out"}, "-=0.5")
+            .from('.hero-buttons .btn', {duration: 0.8, y: 30, opacity: 0, stagger: 0.1, ease: "power3.out"}, "-=0.3");
 
-    // Portfolio cards animation
-    gsap.from('.portfolio-card', {
-        duration: 1,
-        y: 100,
-        opacity: 0,
-        stagger: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-            trigger: '.portfolio-grid',
-            start: 'top 80%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse'
-        }
-    });
-
-    // Story chapters animation
-    gsap.utils.toArray('.story-chapter').forEach((chapter, index) => {
-        gsap.from(chapter, {
+        // Portfolio cards animation
+        gsap.from('.portfolio-card', {
             duration: 1,
-            x: index % 2 === 0 ? -100 : 100,
+            y: 100,
             opacity: 0,
+            stagger: 0.2,
             ease: "power3.out",
             scrollTrigger: {
-                trigger: chapter,
+                trigger: '.portfolio-grid',
                 start: 'top 80%',
+                end: 'bottom 20%',
                 toggleActions: 'play none none reverse'
             }
         });
-    });
 
-    // Stats animation
-    gsap.from('.stat-card', {
-        duration: 1,
-        y: 50,
-        opacity: 0,
-        stagger: 0.1,
-        ease: "back.out(1.7)",
-        scrollTrigger: {
-            trigger: '.story-stats',
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-        }
-    });
+        // Story chapters animation
+        gsap.utils.toArray('.story-chapter').forEach((chapter, index) => {
+            gsap.from(chapter, {
+                duration: 1,
+                x: index % 2 === 0 ? -100 : 100,
+                opacity: 0,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: chapter,
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
 
-    // Enhanced scroll animations
-    gsap.utils.toArray('.section-title').forEach(title => {
-        gsap.from(title, {
+        // Stats animation
+        gsap.from('.stat-card', {
             duration: 1,
             y: 50,
             opacity: 0,
-            ease: "power3.out",
+            stagger: 0.1,
+            ease: "back.out(1.7)",
             scrollTrigger: {
-                trigger: title,
+                trigger: '.story-stats',
                 start: 'top 80%',
                 toggleActions: 'play none none reverse'
             }
         });
-    });
 
-    // Parallax effect for background elements
-    gsap.utils.toArray('.portfolio::before, .story::before').forEach(bg => {
-        gsap.to(bg, {
-            yPercent: -50,
-            ease: "none",
-            scrollTrigger: {
-                trigger: bg,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
+        // Enhanced scroll animations
+        gsap.utils.toArray('.section-title').forEach(title => {
+            gsap.from(title, {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: title,
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
         });
-    });
 
+        // Parallax effect for background elements
+        gsap.utils.toArray('.portfolio::before, .story::before').forEach(bg => {
+            gsap.to(bg, {
+                yPercent: -50,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: bg,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        });
+    } else {
+        // Fallback animations using CSS and Intersection Observer
+        initFallbackAnimations();
+    }
+
+    // Debug: Check if sections exist
+    console.log('Portfolio section found:', !!document.getElementById('portfolio'));
+    console.log('Story section found:', !!document.getElementById('story'));
+    console.log('Portfolio cards found:', document.querySelectorAll('.portfolio-card').length);
+    console.log('Story chapters found:', document.querySelectorAll('.story-chapter').length);
+    console.log('Filter buttons found:', document.querySelectorAll('.filter-btn').length);
+    
+    // Force show sections after a delay (fallback)
+    setTimeout(() => {
+        document.querySelectorAll('.portfolio-card, .story-chapter, .stat-card, .section-title').forEach(el => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        });
+    }, 1000);
+    
     console.log('🚀 Joel Samson Portfolio - Loaded Successfully!');
 });
+
+// Fallback animations for when GSAP is not available
+function initFallbackAnimations() {
+    // Simple CSS-based animations using Intersection Observer
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                
+                // Trigger specific animations
+                if (entry.target.classList.contains('portfolio-grid')) {
+                    const cards = entry.target.querySelectorAll('.portfolio-card');
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+                }
+                
+                if (entry.target.classList.contains('story-chapter')) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+                
+                if (entry.target.classList.contains('story-stats')) {
+                    const cards = entry.target.querySelectorAll('.stat-card');
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+                }
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements
+    document.querySelectorAll('.portfolio-grid, .story-chapter, .story-stats, .section-title').forEach(el => {
+        observer.observe(el);
+    });
+}
 
 // Three.js Scene for Hero Section
 function initThreeJSScene() {
     const canvas = document.getElementById('hero-canvas');
-    if (!canvas) return;
+    if (!canvas || typeof THREE === 'undefined') {
+        console.log('Three.js not available or canvas not found');
+        return;
+    }
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true});
+    try {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true});
     
     renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
     renderer.setClearColor(0x000000, 0);
@@ -695,4 +783,8 @@ function initThreeJSScene() {
         camera.position.y = mouseY * 0.5;
         camera.lookAt(scene.position);
     });
+    
+    } catch (error) {
+        console.log('Three.js initialization failed:', error);
+    }
 }
